@@ -1,0 +1,60 @@
+<div class="text-center text-2xl mb-6">
+    <p><b>Effectuer un versement</b></p>
+</div>
+<div>
+    <form [formGroup]="transactionForm">
+
+        <mat-form-field class="w-full block">
+            <mat-label for="montant" class="flex"><b>Montant du versement:</b></mat-label>
+            <input class="flex w-full"
+                   id="montant"
+                   name="montant"
+                   type="number"
+                   min="0"
+                   formControlName="amount"
+                   matInput>
+        </mat-form-field>
+        <br/>
+
+        <mat-label class="w-full block" for="destination"><b>Destination du versement:</b></mat-label>
+        <mat-radio-group class="mx-auto" aria-label="Select an option" id="destination" name="destination" formControlName="type">
+            <mat-radio-button class="mr-4" value="PEE">PEE</mat-radio-button>
+            <mat-radio-button value="PERECO">PERECO</mat-radio-button>
+        </mat-radio-group>
+        <br/>
+        <br/>
+<div>
+        <mat-form-field class="w-full block">
+            <mat-label class="max-w-prose" for="comment"><b>Référence/Commentaire:</b></mat-label>
+            <textarea  class="w-screen" id="comment" name="comment" formControlName="comment" matInput></textarea>
+        </mat-form-field>
+        <br/>
+</div>
+        <p>
+            <b>Récapitulatif du versement:</b><br/>
+            Merci d'initier un versement volontaire sur votre compte épagne salariale.
+            Vous avez choisi de verser <b>{{transactionForm.value.amount}}€</b> vers votre <b>{{transactionForm.value.type}}</b>.
+            Veuillez vérifier attentivement ces détails avant de valider
+        </p>
+
+        <br/>
+        <mat-checkbox
+            class="example-margin"
+            labelPosition="before"
+            (click)="toggle()">
+            J'ai vérifié les détails de mon versement
+        </mat-checkbox>
+        <br/>
+
+        <button
+            mat-raised-button
+            class="w-32 bg-green-700 text-white absolute bottom-4 right-4"
+            [disabled]="!transactionForm.value.amount || !transactionForm.value.type || !isCheckboxChecked"
+            [ngClass]="{'bg-green-700' : transactionForm.value.amount && transactionForm.value.type && isCheckboxChecked}"
+            (click)="sendTransaction()">
+            Valider
+        </button>
+    </form>
+</div>
+
+

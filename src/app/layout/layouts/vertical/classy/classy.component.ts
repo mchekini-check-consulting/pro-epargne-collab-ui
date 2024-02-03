@@ -9,8 +9,8 @@ import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/co
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
+import { UserService } from 'app/core/service/user.service';
+import { User } from 'app/core/model/user.types';
 import { LanguagesComponent } from 'app/layout/common/languages/languages.component';
 import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
 import { SearchComponent } from 'app/layout/common/search/search.component';
