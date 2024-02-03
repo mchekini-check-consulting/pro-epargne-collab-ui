@@ -1,0 +1,46 @@
+<div>
+    <form [formGroup]="transactionForm">
+
+        <mat-form-field class="py-1">
+            <mat-label for="montant">Montant du versement:</mat-label>
+            <input id="montant" name="montant" type="number" formControlName="amount" matInput>
+        </mat-form-field>
+        <br/>
+
+        <mat-label for="destination">Destination du versement</mat-label>
+        <mat-radio-group aria-label="Select an option" id="destination" name="destination" formControlName="type">
+            <mat-radio-button value="PEE">PEE</mat-radio-button>
+            <mat-radio-button value="PERECO">PERECO</mat-radio-button>
+        </mat-radio-group>
+        <br/>
+<div class="w-1/2">
+        <mat-form-field>
+            <mat-label for="comment">Référence/Commentaire:</mat-label>
+            <textarea id="comment" name="comment" formControlName="comment" matInput></textarea>
+        </mat-form-field>
+        <br/>
+</div>
+        <p>
+            Récapitulatif du versement:
+        </p>
+        <p>
+            Merci d'initier un versement volontaire sur votre compte épagne salariale.
+        </p>
+        <p>
+            Vous avez choisi de verser {{transactionForm.value.amount}}€ vers votre {{transactionForm.value.type}}.
+        </p>
+        <p>
+            Veuillez vérifier attentivement ces détails avant de valider
+        </p>
+
+        <mat-checkbox
+            class="example-margin"
+            labelPosition="before"
+            (click)="toggle()">
+            J'ai vérifié les détails de mon versement
+        </mat-checkbox>
+        <button mat-raised-button [disabled]="!transactionForm.value.amount || !transactionForm.value.type || !isCheckboxChecked" (click)="sendTransaction()">Valider</button>
+    </form>
+</div>
+
+
