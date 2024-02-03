@@ -25,7 +25,7 @@ node("ci-node") {
         }
     }
 
-    node("deploy-node") {
+    node("deploy-node-int") {
         stage("deploy") {
             unstash 'utils'
             try {

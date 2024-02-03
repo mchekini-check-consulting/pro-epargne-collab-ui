@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { OAuthService } from "angular-oauth2-oidc";
 import { authCodeFlowConfig } from "./auth.config";
-import { UserService } from "./core/user/user.service";
+import { UserService } from "./core/service/user.service";
 
 @Component({
     selector   : 'app-root',

@@ -8,7 +8,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/features/feature1'
-    {path: '', pathMatch : 'full', redirectTo: 'features/feature1'},
+    {path: '', pathMatch : 'full', redirectTo: 'features/operation'},
 
     // Admin routes
     {
@@ -21,10 +21,7 @@ export const appRoutes: Route[] = [
 
             // Dashboards
             {path: 'features', children: [
-                {path: 'feature1', loadChildren: () => import('app/modules/admin/features/feature1/feature1.routes')},
-                {path: 'feature2', loadChildren: () => import('app/modules/admin/features/feature2/feature2.routes')},
-                {path: 'feature3', loadChildren: () => import('app/modules/admin/features/feature3/feature3.routes')},
-                {path: 'feature4', loadChildren: () => import('app/modules/admin/features/feature4/feature4.routes')},
+                {path: 'operation', loadChildren: () => import('app/modules/admin/features/feature1/opeations.routes')},
             ]},
 
             // Pages

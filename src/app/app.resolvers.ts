@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { NotificationsService } from 'app/layout/common/notifications/notifications.service';
 import { forkJoin } from 'rxjs';
-import { UserService } from './core/user/user.service';
+import { UserService } from './core/service/user.service';
 
 export const initialDataResolver = () =>
 {
