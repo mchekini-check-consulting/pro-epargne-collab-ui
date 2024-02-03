@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {MatDialog} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {TransactionModel} from "../../../../../core/model/transaction.model";
 
 @Component({
   selector: 'app-information-dialog',
@@ -9,7 +10,15 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './information-dialog.component.html',
   styleUrl: './information-dialog.component.scss'
 })
-export class InformationDialogComponent {
+export class InformationDialogComponent implements OnInit{
 
-    constructor(public dialog: MatDialog) {}
+
+    displayPee : boolean = false;
+    constructor(public dialogRef: MatDialogRef<InformationDialogComponent>,
+                public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: TransactionModel,
+                ) {}
+
+    ngOnInit(): void {
+        console.log(typeof this.data.planType);
+    }
 }
