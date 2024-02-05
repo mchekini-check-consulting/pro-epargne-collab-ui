@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {TransactionModel} from "../model/transaction.model";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,7 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-    sendTransaction(transactionModel: TransactionModel ) : void {
-      /**/
-      this.http.post<TransactionModel>(this.url, transactionModel).subscribe(res =>{
-          console.log(res);
-      });
+    sendTransaction(transactionModel: TransactionModel ){
+      return this.http.post<TransactionModel>(this.url, transactionModel);
    }
 }

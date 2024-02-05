@@ -9,9 +9,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {InformationDialogComponent} from "../information-dialog/information-dialog.component";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {TransactionModel} from "../../../../../core/model/transaction.model";
-import {TransactionService} from "../../../../../core/service/transaction.service";
-import {OperationTypeEnum} from "../../../../../core/enum/operation.type.enum";
+import {TransactionModel} from "../../../../../../core/model/transaction.model";
+import {TransactionService} from "../../../../../../core/service/transaction.service";
+import {OperationTypeEnum} from "../../../../../../core/enum/operation.type.enum";
 
 @Component({
     selector: 'app-transaction-dialog',
@@ -43,11 +43,12 @@ export class TransactionDialogComponent {
     }
 
 
-    openInformationDialog() {
+    openInformationDialog(isSucceed : boolean) {
         const infoDialog: MatDialogRef<InformationDialogComponent> = this.dialog.open(InformationDialogComponent, {
-            width: '600px',
-            height: '600px',
+            width: '500px',
+            height: '400px',
             data: {
+                responseSuccess : isSucceed,
                 amount: this.transactionModel.amount,
                 planType: this.transactionModel.planType,
                 comment: this.transactionModel.comment,
@@ -63,12 +64,12 @@ export class TransactionDialogComponent {
         this.transactionModel.planType = this.transactionForm.get("type").value;
         this.transactionModel.comment = this.transactionForm.get("comment").value;
 
-        this.transactionService.sendTransaction(this.transactionModel);
+        this.transactionService.sendTransaction(this.transactionModel).subscribe(res =>
+        {
+            this.openInformationDialog(true);
 
-        console.log(this.transactionModel.amount);
-        console.log(this.transactionModel.planType);
-        console.log(this.transactionModel.comment);
-        //Display info
-        this.openInformationDialog();
+        }, error => {
+            this.openInformationDialog(false);
+        });
     }
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
-import {TransactionDialogComponent} from "../../tranaction-dialog/transaction-dialog.component";
+import {TransactionDialogComponent} from "../../components/tranaction-dialog/transaction-dialog.component";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 
@@ -22,10 +22,5 @@ export class FinancialOperationComponent {
             width: '600px',
             height: '600px'
         });
-    }
-
-    onDia
-    cardTest() {
-        console.log("Test click on card")
     }
 }

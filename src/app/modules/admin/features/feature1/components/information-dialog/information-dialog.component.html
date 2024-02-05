@@ -1,0 +1,42 @@
+<ng-template *ngIf="data.responseSuccess; else elseBlock">
+<button mat-icon-button aria-label="close dialog" (click)="onClose()" class="absolute top-4 right-4" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+</button>
+<p class="text-center text-2xl mb-6">
+    <b>Versement effecué</b>
+</p>
+<br/>
+<p class="text-green-600">
+    <b>Félicitations ! Votre versement volontaire a été effectué avec succès.</b>
+</p>
+<br/>
+<p class="mb-2">
+    Récapitulatif de la Demande:
+</p>
+<ul class="mb-4 ml-16 list-disc">
+    <li >Montant du versement est: <b>{{data.amount}}€ </b></li>
+    <li>Destination du versement:  <b>{{data.planType}}</b></li>
+    <li>Référence/Commentaire:     <b>{{data.comment}}</b></li>
+</ul>
+<br/>
+<p class="text-center">
+    <b>Merci pour votre initiative d'épargne salariale!</b>
+</p>
+</ng-template>
+
+<ng-template #elseBlock>
+    <button mat-icon-button aria-label="close dialog" (click)="onClose()" class="absolute top-4 right-4" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+    <p class="text-center text-2xl mb-6">
+        <b>Versement non effecué</b>
+    </p>
+    <br/>
+    <p class="text-center text-red-600">
+        <b>Une erreur est survenue lors du virement.</b>
+    </p>
+    <br/>
+    <p class="text-center">
+        <b>Veuillez réessayer ultérieurement.</b>
+    </p>
+</ng-template>
