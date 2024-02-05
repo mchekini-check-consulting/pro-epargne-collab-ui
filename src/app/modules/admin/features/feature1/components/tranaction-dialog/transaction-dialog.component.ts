@@ -42,13 +42,12 @@ export class TransactionDialogComponent {
     constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<TransactionDialogComponent>, private transactionService: TransactionService) {
     }
 
-
     openInformationDialog(isSucceed : boolean) {
         const infoDialog: MatDialogRef<InformationDialogComponent> = this.dialog.open(InformationDialogComponent, {
             width: '500px',
             height: '400px',
             data: {
-                responseSuccess : isSucceed,
+                status : isSucceed,
                 amount: this.transactionModel.amount,
                 planType: this.transactionModel.planType,
                 comment: this.transactionModel.comment,
