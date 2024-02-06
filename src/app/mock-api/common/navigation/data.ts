@@ -11,7 +11,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id   : 'features.operation',
-                title: 'Opérations',
+                title: 'Opérations financières',
                 type : 'basic',
                 icon : 'heroicons_outline:clipboard-document-check',
                 link : '/features/operation',
