@@ -6,21 +6,29 @@
         <button mat-stroked-button>Répartition des assets</button>
         <button mat-stroked-button>Historique des Opérations</button>
     </div>
-    <div class="mt-6 px-5 h-1/2">
-        <h1 class="text-4xl text-red-800 text-center">Épargne: 5500 Euros </h1>
-        <div class="h-full px-5 mt-5">
-            <div class="h-1/2 bg-red-200 p-5">
-                <h2 class="text-2xl text-red-500 ">PEE </h2>
 
-                <h2 class="text-6xl text-red-500 text-center">4000</h2>
-            </div>
-            <div class="h-1/2 bg-blue-200 p-5">
-                <h2 class="text-2xl text-blue-500 ">PERCO </h2>
+    <div *ngIf="accounts" class="mt-6 px-5 h-2/3">
+        <h1 class="text-center"><mat-icon>account_balance</mat-icon></h1>
+        <h1 class="text-6xl text-red-500 text-center font-extrabold"> Épargne:
+            {{totalAmont}} € </h1>
+        <div class="h-full px-5 mt-5 ">
 
-                <h2 class="text-6xl text-blue-500 text-center">1500</h2>
 
+            <div *ngFor="let account of accounts" class="h-1/2 p-5 relative mb-4 rounded-2xl shadow-2xl bg-white">
+
+                <span class="text-2xl py-2 px-3 font-extrabold"
+                    [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">{{account.type}} </span>
+
+                <h2 class="text-6xl text-center" [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">
+                    {{account.amount}} €</h2>
+
+                <span class="text-3xl absolute bottom-2 right-5"
+                    [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">
+                    {{account.managementMode == 'DELEGATED' ?'Délégué':'Libre'}}
+                </span>
             </div>
 
         </div>
     </div>
+
 </div>
