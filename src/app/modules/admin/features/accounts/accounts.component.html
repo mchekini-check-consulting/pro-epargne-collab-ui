@@ -1,0 +1,53 @@
+<div class="w-4/5 my-0 mx-auto">
+    <h2>Mode de Gestion</h2>
+    <div class="p-2">
+        <h3>PEE</h3>
+        <mat-radio-group
+            (change)="handleManagementModes($event, 'pee')"
+            class="mb-2"
+        >
+            @for (mode of managementModes; track mode) {
+            <mat-radio-button [value]="mode.key">{{
+                mode.value
+            }}</mat-radio-button>
+            }
+        </mat-radio-group>
+        @if (peeMode==="DELEGATED") {
+        <div class="bg-gray-400 p-4 rounded-lg">
+            <h4 class="mb-1">Quel genre d'investisseur êtes-vous ?</h4>
+            <mat-select class="bg-white p-1" (selectionChange)="handleRiskLevel($event,'pee')">
+                @for (riskLevel of riskLevels; track riskLevels) {
+                <mat-option [value]="riskLevel.key">{{
+                    riskLevel.value
+                }}</mat-option>
+                }
+            </mat-select>
+        </div>
+        }
+    </div>
+    <div class="p-2">
+        <h3>PERECO</h3>
+        <mat-radio-group
+            (change)="handleManagementModes($event, 'pereco')"
+            class="mb-2"
+        >
+            @for (mode of managementModes; track mode) {
+            <mat-radio-button [value]="mode.key">{{
+                mode.value
+            }}</mat-radio-button>
+            }
+        </mat-radio-group>
+        @if (perecoMode==="DELEGATED") {
+        <div class="bg-gray-400 p-4 rounded-lg">
+            <h4>Quel genre d'investisseur êtes-vous ?</h4>
+            <mat-select class="bg-white p-1" (selectionChange)="handleRiskLevel($event,'pereco')">
+                @for (riskLevel of riskLevels; track riskLevels) {
+                <mat-option [value]="riskLevel.key">{{
+                    riskLevel.value
+                }}</mat-option>
+                }
+            </mat-select>
+        </div>
+        }
+    </div>
+</div>
