@@ -9,9 +9,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {InformationDialogComponent} from "../information-dialog/information-dialog.component";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {TransactionModel} from "../../../../../core/model/transaction.model";
-import {TransactionService} from "../../../../../core/service/transaction.service";
-import {OperationTypeEnum} from "../../../../../core/enum/operation.type.enum";
+import {TransactionModel} from "../../../../../../core/model/transaction.model";
+import {TransactionService} from "../../../../../../core/service/transaction.service";
+import {OperationTypeEnum} from "../../../../../../core/enum/operation.type.enum";
 
 @Component({
     selector: 'app-transaction-dialog',

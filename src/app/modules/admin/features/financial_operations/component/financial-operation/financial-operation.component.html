@@ -4,7 +4,7 @@
         <button mat-stroked-button (click)="openTransactionDialog()">Versement</button>
         <button mat-stroked-button>Retrait</button>
         <button mat-stroked-button>Répartition des assets</button>
-        <button mat-stroked-button>Historique des Opérations</button>
+        <button mat-stroked-button (click)="navigateToHistory()">Historique des Opérations</button>
     </div>
 
     <div *ngIf="accounts" class="mt-6 px-5 h-2/3">
@@ -30,5 +30,4 @@
 
         </div>
     </div>
-
 </div>

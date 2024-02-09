@@ -21,7 +21,7 @@ export class FinancialOperationComponent implements OnInit{
     totalAmont:number = 0
 
     constructor(public dialog: MatDialog, private accountService:CollaboratorAccountService) {}
-  
+
 
     openTransactionDialog() {
         this.dialog.open(TransactionDialogComponent, {
@@ -36,15 +36,15 @@ export class FinancialOperationComponent implements OnInit{
     }
 
     ngOnInit(){
-      
+
       this.accountService.getCollaboratorAccounts().subscribe(response=>{
-     
+
         if(response.hasOwnProperty("data")){
-          
+
           this.accounts = response['data']
           this.accounts.forEach(account=>this.totalAmont+=account.amount)
         }
       })
     }
-    
+
 }
