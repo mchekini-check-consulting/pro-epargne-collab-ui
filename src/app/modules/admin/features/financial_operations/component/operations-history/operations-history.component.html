@@ -1,0 +1,52 @@
+
+
+<div class="w-full p-5 mat-elevation-z8 ">
+    <p class="pt-5 pb-5 text-2xl "> Historique des opérations </p>
+
+    <mat-form-field class="w-50 sm:w-100">
+        <mat-label>Filter par type d'opération</mat-label>
+        <mat-select [formControl]="typeControl" (selectionChange)="onFilter($event.value)">
+            <mat-option *ngFor="let option of operationTypes" [value]="option.value"  >
+                {{ option.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+<!--    <table class="w-full" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">-->
+    <table class="w-full" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+        <ng-container matColumnDef="type">
+<!--            <th mat-header-cell *matHeaderCellDef mat-sort-header  > Type de l'opération</th>-->
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Type de l'opération</th>
+            <td mat-cell *matCellDef="let row"> {{ row.type }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header > Date de l'opération</th>
+            <td mat-cell *matCellDef="let row"> {{ row.createdAt }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="previousAmount">
+            <th mat-header-cell *matHeaderCellDef > Solde avant l'opération</th>
+            <td mat-cell *matCellDef="let row"> {{ row.previousAmount }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef > Montant de l'opération</th>
+            <td mat-cell *matCellDef="let row"> {{ row.amount }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nextAmount">
+            <th mat-header-cell *matHeaderCellDef > Solde après l'opération</th>
+            <td mat-cell *matCellDef="let row"> {{ row.nextAmount }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="operations?.data['totalElements']"
+
+                      (page)="onPageChange($event)" showFirstLastButtons class="flex justify-end"></mat-paginator>
+
+</div>

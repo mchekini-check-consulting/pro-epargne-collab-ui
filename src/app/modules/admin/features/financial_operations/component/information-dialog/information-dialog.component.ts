@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {TransactionModel} from "../../../../../core/model/transaction.model";
+import {TransactionModel} from "../../../../../../core/model/transaction.model";
 
 @Component({
   selector: 'app-information-dialog',
