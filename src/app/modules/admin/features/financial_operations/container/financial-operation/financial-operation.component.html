@@ -1,34 +1,46 @@
-<div class="container w-full">
+<div class="container w-full flex flex-wrap flex-row-reverse">
 
-    <div class="flex flex-wrap flex-row w-full justify-between pt-2 py-5 px-5">
-        <button mat-stroked-button (click)="openTransactionDialog()">Versement</button>
-        <button mat-stroked-button>Retrait</button>
-        <button mat-stroked-button>Répartition des assets</button>
-        <button mat-stroked-button>Historique des Opérations</button>
+
+    <div class="flex lg:flex-col justify-center w-ful lg:w-1/5 pt-2 py-5 px-5 border-s-4">
+        <button class="mb-15" mat-raised-button color="accent"
+            (click)="openTransactionDialog()"><mat-icon>library_add</mat-icon>
+            Versement</button>
+        <button class="mb-15" mat-raised-button color="accent"><mat-icon>account_balance_wallet</mat-icon>
+            Retrait</button>
+        <button class="mb-15" mat-raised-button color="accent"><mat-icon>incomplete_circle</mat-icon> Répartition
+            des
+            assets</button>
+        <button mat-raised-button color="accent"><mat-icon>history</mat-icon> Historique des
+            Opérations</button>
     </div>
 
-    <div *ngIf="accounts" class="mt-6 px-5 h-2/3">
+
+
+    <div *ngIf="accounts" class="mt-6 px-5 h-2/3 lg:w-4/5 w-full">
         <h1 class="text-center"><mat-icon>account_balance</mat-icon></h1>
-        <h1 class="text-6xl text-red-500 text-center font-extrabold"> Épargne:
+        <h1 class="text-6xl text-red-500 text-center font-bold mb-5"> Épargne:
             {{totalAmont}} € </h1>
         <div class="h-full px-5 mt-5 ">
 
 
-            <div *ngFor="let account of accounts" class="h-1/2 p-5 relative mb-4 rounded-2xl shadow-2xl bg-white">
+            <div *ngFor="let account of accounts" class="h-1/2 p-5 relative mb-4 rounded-2xl shadow-2xl"
+                [ngClass]="account.type == 'PEE'?'bg-teal-200 hover:bg-teal-300':'bg-blue-200 hover:bg-blue-300'">
 
                 <span class="text-2xl py-2 px-3 font-extrabold"
-                    [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">{{account.type}} </span>
+                    [ngClass]="account.type == 'PEE'?'text-teal-700':'text-blue-700'">{{account.type}} </span>
 
-                <h2 class="text-6xl text-center" [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">
+                <h2 class="text-6xl text-center" [ngClass]="account.type == 'PEE'?'text-teal-700':'text-blue-700'">
                     {{account.amount}} €</h2>
 
                 <span class="text-3xl absolute bottom-2 right-5"
-                    [ngClass]="account.type == 'PEE'?'text-teal-500':'text-blue-500'">
+                    [ngClass]="account.type == 'PEE'?'text-teal-700':'text-blue-700'">
                     {{account.managementMode == 'DELEGATED' ?'Délégué':'Libre'}}
                 </span>
             </div>
 
         </div>
     </div>
+
+
 
 </div>
