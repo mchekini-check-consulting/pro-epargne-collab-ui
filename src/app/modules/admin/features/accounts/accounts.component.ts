@@ -1,56 +1,125 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
-import { NgModel } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { AccountService } from 'app/core/service/account.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 
 @Component({
     selector: 'app-accounts',
     standalone: true,
-    imports: [CommonModule, MatRadioModule, MatSelectModule],
+    imports: [
+        CommonModule,
+        MatRadioModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+    ],
     templateUrl: './accounts.component.html',
-    styleUrl: './accounts.component.scss',
 })
-export class AccountsComponent {
-    peeMode: string;
-    perecoMode: string;
-
-    peeRiskLevel: string;
-    perecoRiskLevel: string;
+export class AccountsComponent implements OnInit {
+    private accountService = inject(AccountService);
+    private snackBar: MatSnackBar = inject(MatSnackBar);
+    private formBuilder = inject(FormBuilder);
+    form: FormGroup;
 
     managementModes: { key: string; value: string }[] = [
         { key: 'FREE', value: 'Libre' },
         { key: 'DELEGATED', value: 'Déléguée' },
     ];
+
     riskLevels: { key: string; value: string }[] = [
         { key: 'PRUDENT', value: 'Prudent' },
         { key: 'BALANCED', value: 'Equilibre' },
         { key: 'DYNAMIC', value: 'Dynamique' },
     ];
 
-    handleManagementModes(e, mode: 'pee' | 'pereco') {
-        switch (mode) {
-            case 'pee': {
-                this.peeMode = e.value;
-                break;
-            }
-            case 'pereco': {
-                this.perecoMode = e.value;
-                break;
-            }
-        }
+    ngOnInit(): void {
+        this.form = this.formBuilder.group({
+            peeMode: ['', Validators.required],
+            peeRiskLevel: ['', []],
+            perecoMode: ['', Validators.required],
+            perecoRiskLevel: ['', []],
+        });
+
+        this.accountService.getUserAccounts().subscribe((res) => {
+            const response: {
+                peeMode: string;
+                peeRiskLevel: string;
+                perecoMode: string;
+                perecoRiskLevel: string;
+            } = {
+                peeMode: null,
+                peeRiskLevel: null,
+                perecoMode: null,
+                perecoRiskLevel: null,
+            };
+            res.data.forEach((account) => {
+                switch (account.type) {
+                    case 'PEE': {
+                        response.peeMode = account.managementMode;
+                        response.peeRiskLevel = account.riskLevel;
+                        break;
+                    }
+                    case 'PERECO': {
+                        response.perecoMode = account.managementMode;
+                        response.perecoRiskLevel = account.riskLevel;
+                        break;
+                    }
+                }
+            });
+            this.form.setValue({
+                peeMode: response.peeMode,
+                perecoMode: response.perecoMode,
+                peeRiskLevel: response.peeRiskLevel,
+                perecoRiskLevel: response.perecoRiskLevel,
+            });
+        });
     }
 
-    handleRiskLevel(e, mode: 'pee' | 'pereco') {
-        switch (mode) {
-            case 'pee': {
-                this.peeRiskLevel = e.value;
-                break;
-            }
-            case 'pereco': {
-                this.perecoRiskLevel = e.value;
-                break;
-            }
+    updateUserAccountsInvestementDetails() {
+        const request: {
+            peeManagementMode: string;
+            peeRiskLevel: string;
+            perecoManagementMode: string;
+            perecoRiskLevel: string;
+        } = {
+            peeManagementMode: this.form.getRawValue().peeMode,
+            peeRiskLevel:
+                this.form.getRawValue().peeMode === 'DELEGATED'
+                    ? this.form.getRawValue().peeRiskLevel
+                    : null,
+            perecoManagementMode: this.form.getRawValue().perecoMode,
+            perecoRiskLevel:
+                this.form.getRawValue().perecoMode === 'DELEGATED'
+                    ? this.form.getRawValue().perecoRiskLevel
+                    : null,
+        };
+        if (this.form.valid) {
+            this.accountService
+                .updateUserAccountsInvestementDetails(request)
+                .subscribe({
+                    next:(value) =>{
+                        this.snackBar.open(
+                            'Vos paramètres ont été mis à jour',
+                            null,
+                            { duration: 3 * 1000 }
+                        );
+                    },
+                    error: (eerr) => {
+                        this.snackBar.open(
+                            "Une erreur s'est produite lors du traitement de cette demande",
+                            null,
+                            { duration: 3 * 1000 }
+                        );
+                    },
+                });
         }
     }
 }
