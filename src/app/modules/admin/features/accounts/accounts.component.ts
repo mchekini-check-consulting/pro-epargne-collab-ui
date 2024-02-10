@@ -11,6 +11,7 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-accounts',
@@ -20,6 +21,7 @@ import {
         MatRadioModule,
         MatSelectModule,
         ReactiveFormsModule,
+        MatTooltipModule,
     ],
     templateUrl: './accounts.component.html',
 })
@@ -29,9 +31,17 @@ export class AccountsComponent implements OnInit {
     private formBuilder = inject(FormBuilder);
     form: FormGroup;
 
-    managementModes: { key: string; value: string }[] = [
-        { key: 'FREE', value: 'Libre' },
-        { key: 'DELEGATED', value: 'Déléguée' },
+    managementModes: { key: string; value: string; tooltip?: string }[] = [
+        {
+            key: 'FREE',
+            value: 'Libre',
+            tooltip:
+                'La gestion libre vous donne le contrôle total sur vos investissements. Vous choisissez les actifs et les fonds selon vos préférences et objectifs financiers.',
+        },
+        {
+            key: 'DELEGATED',
+            value: 'Déléguée',
+        },
     ];
 
     riskLevels: { key: string; value: string }[] = [
@@ -105,7 +115,7 @@ export class AccountsComponent implements OnInit {
             this.accountService
                 .updateUserAccountsInvestementDetails(request)
                 .subscribe({
-                    next:(value) =>{
+                    next: (value) => {
                         this.snackBar.open(
                             'Vos paramètres ont été mis à jour',
                             null,

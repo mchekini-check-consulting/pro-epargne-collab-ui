@@ -13,9 +13,11 @@
             </h3>
             <mat-radio-group formControlName="peeMode" class="mb-2">
                 @for (mode of managementModes; track mode) {
-                <mat-radio-button [value]="mode.key">{{
-                    mode.value
-                }}</mat-radio-button>
+                <mat-radio-button
+                    [matTooltip]="mode.tooltip"
+                    [value]="mode.key"
+                    >{{ mode.value }}</mat-radio-button
+                >
                 }
             </mat-radio-group>
             @if (form.get('peeMode').value==="DELEGATED") {
@@ -51,9 +53,11 @@
             </h3>
             <mat-radio-group formControlName="perecoMode" class="mb-2">
                 @for (mode of managementModes; track mode) {
-                <mat-radio-button [value]="mode.key">{{
-                    mode.value
-                }}</mat-radio-button>
+                <mat-radio-button
+                    [matTooltip]="mode.tooltip"
+                    [value]="mode.key"
+                    >{{ mode.value }}</mat-radio-button
+                >
                 }
             </mat-radio-group>
             @if (form.get('perecoMode').value==="DELEGATED") {
