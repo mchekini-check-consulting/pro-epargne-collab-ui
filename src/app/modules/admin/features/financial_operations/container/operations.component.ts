@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AppInformationService} from "../../../../core/service/app-information.service";
+import {AppInformationService} from "../../../../../core/service/app-information.service";
 import {Observable} from "rxjs";
-import {AppInformation} from "../../../../core/model/app-information";
+import {AppInformation} from "../../../../../core/model/app-information";
 import {AsyncPipe, JsonPipe} from "@angular/common";
-import {FinancialOperationComponent} from "./container/financial-operation/financial-operation.component";
+import {FinancialOperationComponent} from "../component/financial-operation/financial-operation.component";
 
 @Component({
     selector: 'feature1',
