@@ -1,0 +1,102 @@
+<div class="w-4/5 px-2 py-3">
+    <h2
+        class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
+    >
+        Mode de Gestion
+    </h2>
+    <form [formGroup]="form" (submit)="updateUserAccountsInvestementDetails()">
+        <div class="p-3">
+            <h3
+                class="text-lg font-bold text-gray-600 sm:truncate sm:tracking-tight"
+            >
+                PEE
+            </h3>
+            <mat-radio-group formControlName="peeMode" class="mb-2">
+                @for (mode of managementModes; track mode) {
+                <mat-radio-button
+                    [matTooltip]="mode.tooltip"
+                    [value]="mode.key"
+                    >{{ mode.value }}</mat-radio-button
+                >
+                }
+            </mat-radio-group>
+            @if (form.get('peeMode').value==="DELEGATED") {
+            <div class="mt-4">
+                <h4 class="text-gray-700 mb-2 font-bold">
+                    Quel genre d'investisseur êtes-vous ?
+                </h4>
+                <mat-form-field class="w-full">
+                    <mat-select
+                        formControlName="peeRiskLevel"
+                        required="true"
+                        class="bg-white p-3 rounded"
+                    >
+                        @for (riskLevel of riskLevels; track riskLevels) {
+                        <mat-option [value]="riskLevel.key">{{
+                            riskLevel.value
+                        }}</mat-option>
+                        }
+                    </mat-select>
+                    @if (form.get('peeRiskLevel').hasError('required')) {
+                    <mat-error>Ce champ est obligatoire !</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            }
+        </div>
+        <hr />
+        <div class="p-3">
+            <h3
+                class="text-lg font-bold text-gray-600 sm:truncate sm:tracking-tight"
+            >
+                PERECO
+            </h3>
+            <mat-radio-group formControlName="perecoMode" class="mb-2">
+                @for (mode of managementModes; track mode) {
+                <mat-radio-button
+                    [matTooltip]="mode.tooltip"
+                    [value]="mode.key"
+                    >{{ mode.value }}</mat-radio-button
+                >
+                }
+            </mat-radio-group>
+            @if (form.get('perecoMode').value==="DELEGATED") {
+            <div class="mt-4">
+                <h4 class="text-gray-700 font-bold">
+                    Quel genre d'investisseur êtes-vous ?
+                </h4>
+                <mat-form-field class="w-full">
+                    <mat-select
+                        formControlName="perecoRiskLevel"
+                        required="true"
+                        class="bg-white rounded"
+                    >
+                        @for (riskLevel of riskLevels; track riskLevels) {
+                        <mat-option [value]="riskLevel.key">{{
+                            riskLevel.value
+                        }}</mat-option>
+                        }
+                    </mat-select>
+                    @if (form.get('perecoRiskLevel').hasError('required')) {
+                    <mat-error>Ce champ est obligatoire !</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            }
+        </div>
+        <div class="mt-2 p-2 flex items-center gap-4 justify-end">
+            <button
+                type="submit"
+                class="text-white bg-indigo-600 drop-shadow-md border rounded-md border-gray-500 px-4 py-2"
+            >
+                Enregistrer
+            </button>
+            <button
+                type="button"
+                class="drop-shadow-md border rounded-md border-gray-500 px-4 py-2"
+            >
+                Annuler
+            </button>
+        </div>
+    </form>
+</div>
