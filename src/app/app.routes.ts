@@ -22,6 +22,8 @@ export const appRoutes: Route[] = [
             // Dashboards
             {path: 'features', children: [
                 {path: 'operation', loadChildren: () => import('app/modules/admin/features/financial_operations/container/operations.routes')},
+                {path: 'accounts', loadChildren: () => import('app/modules/admin/features/accounts/accounts.routes')},
+
             ]},
 
             // Pages
