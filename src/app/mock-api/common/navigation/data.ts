@@ -16,6 +16,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon : 'heroicons_outline:clipboard-document-check',
                 link : '/features/operation',
             },
+            {
+                id   : 'features.history',
+                title: 'Historique des opérations',
+                type : 'basic',
+                icon : 'heroicons_outline:clock',
+                link : '/features/operation/operations-history.component.ts',
+            },
         ],
     },
     {
