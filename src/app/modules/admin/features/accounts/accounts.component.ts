@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { AccountService } from 'app/core/service/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -25,6 +25,7 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
     ],
     templateUrl: './accounts.component.html',
 })
+
 export class AccountsComponent implements OnInit {
     private accountService = inject(AccountService);
     private snackBar: MatSnackBar = inject(MatSnackBar);
@@ -57,7 +58,6 @@ export class AccountsComponent implements OnInit {
             perecoMode: ['', Validators.required],
             perecoRiskLevel: ['', []],
         });
-
         this.accountService.getUserAccounts().subscribe((res) => {
             const response: {
                 peeMode: string;
@@ -93,6 +93,17 @@ export class AccountsComponent implements OnInit {
         });
     }
 
+    handleManagementModeChange($event: MatRadioChange, managementMode: string) {
+        if ($event.value === 'DELEGATED') {
+            this.form.addControl(
+                `${managementMode}RiskLevel`,
+                new FormControl('', Validators.required)
+            );
+        } else if ($event.value === 'FREE') {
+            this.form.removeControl(`${managementMode}RiskLevel`);
+        }
+    }
+
     updateUserAccountsInvestementDetails() {
         const request: {
             peeManagementMode: string;
@@ -111,7 +122,7 @@ export class AccountsComponent implements OnInit {
                     ? this.form.getRawValue().perecoRiskLevel
                     : null,
         };
-        if (this.form.valid) {
+        if (this.form.valid && this.form.dirty) {
             this.accountService
                 .updateUserAccountsInvestementDetails(request)
                 .subscribe({
@@ -130,6 +141,10 @@ export class AccountsComponent implements OnInit {
                         );
                     },
                 });
+        } else {
+            this.snackBar.open("Aucune modification n'a été apportée", null, {
+                duration: 3 * 1000,
+            });
         }
     }
 }
