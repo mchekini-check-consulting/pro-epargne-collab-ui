@@ -25,7 +25,6 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
     ],
     templateUrl: './accounts.component.html',
 })
-
 export class AccountsComponent implements OnInit {
     private accountService = inject(AccountService);
     private snackBar: MatSnackBar = inject(MatSnackBar);
@@ -42,6 +41,8 @@ export class AccountsComponent implements OnInit {
         {
             key: 'DELEGATED',
             value: 'Déléguée',
+            tooltip:
+                "La gestion déléguée est prise en charge par des experts financiers. Ils prendront les décisions d'investissement à votre place, basées sur une approche professionnelle.",
         },
     ];
 
