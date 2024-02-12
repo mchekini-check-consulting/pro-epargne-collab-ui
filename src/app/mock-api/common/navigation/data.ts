@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Historique des opérations',
                 type : 'basic',
                 icon : 'heroicons_outline:clock',
-                link : '/features/operation/operations-history.component.ts',
+                link : '/features/history',
             },
         ],
     },
