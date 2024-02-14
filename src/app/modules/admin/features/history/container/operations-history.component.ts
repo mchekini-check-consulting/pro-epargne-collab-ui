@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {OperationHistoryService} from "../../../../../core/service/operation-history.service";
-import {PaginatedOperationHistory} from "../../../../../core/model/paginated-history-model";
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatSelectModule} from "@angular/material/select";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {MatSort, MatSortModule, Sort} from "@angular/material/sort";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { PaginatedOperationHistory } from "../../../../../core/model/paginated-history-model";
+import { OperationHistoryService } from "../../../../../core/service/operation-history.service";
 
 
 @Component({
@@ -20,7 +20,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 export class OperationsHistoryComponent implements OnInit, AfterViewInit {
 
     operations: PaginatedOperationHistory
-    displayedColumns: string[] = ["type", "createdAt", "previousAmount", "amount", "nextAmount"];
+    displayedColumns: string[] = ["type", "createdAt","planType" , "previousAmount", "amount", "nextAmount"];
     dataSource: MatTableDataSource<any>;
 
     filtre: string = "";
