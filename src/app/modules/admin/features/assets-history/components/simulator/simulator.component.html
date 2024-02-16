@@ -1,1 +1,66 @@
-<div>simulator works</div>
+<form [formGroup]="simulatorForm" class="w-full flex justify-center" (submit)="onSimulate()">
+    <fuse-card class="w-160 flex flex-col border-t-4 border-primary-500 relative overflow-visible px-8 py-10">
+        <div class="dialog-title-card bg-primary-400 py-2 px-8 rounded-full">
+            <p class="text-xl font-bold">Simulateur</p>
+        </div>
+
+        <div class="w-full flex justify-between mb-4">
+            <p class="text-xl font-bold">
+                Simuler les performances d'un asset :
+            </p>
+            <button class="px-3" (click)="closeDialog()">
+                <mat-icon class="text-5xl">close</mat-icon>
+            </button>
+        </div>
+
+        <mat-form-field class="mb-2">
+            <mat-label class="text-xl">Asset</mat-label>
+            <mat-select formControlName="asset" class="text-lg">
+                @for (item of assetLabels; track item) {
+                <mat-option class="text-lg" [value]="item.value">{{ item.label }}</mat-option>
+                }
+            </mat-select>
+            @if (simulatorForm.get('asset').hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field class="mb-2">
+            <mat-label class="text-xl">Annee d'inverstissement</mat-label>
+            <mat-select formControlName="assetYear" class="text-lg">
+                @for (year of years; track year) {
+                <mat-option class="text-lg" [value]="year">{{ year }}</mat-option>
+                }
+            </mat-select>
+            @if (simulatorForm.get('assetYear').hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field class="mb-5">
+            <mat-label class="text-xl">Capital initial</mat-label>
+            <input matInput type="number" formControlName="initialCapital" class="text-lg" />
+            <mat-icon matSuffix>euro_symbol</mat-icon>
+            @if (simulatorForm.get('initialCapital').hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+            } @if (simulatorForm.get('initialCapital').hasError('pattern')) {
+            <mat-error>Ce champ doit contenir une valeur positive</mat-error>
+            }
+        </mat-form-field>
+
+        <div class="flex flex-row justify-around mb-6">
+            <button class="mx-6 py-6 w-1/2 text-lg" color="primary" mat-raised-button type="submit">
+                Simuler
+            </button>
+            <button class="mx-6 py-6 w-1/2 text-lg" color="accent" mat-raised-button (click)="resetSimulatorForm()">
+                Réinitialiser
+            </button>
+        </div>
+
+        <mat-form-field>
+            <mat-label class="text-xl font-bold">Capital final</mat-label>
+            <input matInput readonly formControlName="finalCapital" class="text-lg font-semibold" />
+            <mat-icon matSuffix>euro_symbol</mat-icon>
+        </mat-form-field>
+    </fuse-card>
+</form>
