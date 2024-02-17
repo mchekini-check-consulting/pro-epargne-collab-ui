@@ -82,7 +82,7 @@ export class SimulatorComponent implements OnInit {
                 ) {
                     result =
                         result *
-                        (1 + Number(this.simulatorForm.value.asset[item]));
+                        (1 + (Number(this.simulatorForm.value.asset[item])/100));
                 }
             });
 
