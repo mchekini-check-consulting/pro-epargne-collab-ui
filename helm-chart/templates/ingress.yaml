@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pro-epargne-collab-ui
+  labels:
+      app.kubernetes.io/instance: pro-epargne-collab-ui
+      app.kubernetes.io/name: pro-epargne-collab-ui
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: collab.pro-epargne.check-consulting.net
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: pro-epargne-collab-ui
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - collab.pro-epargne.check-consulting.net
+      secretName: collab.pro-epargne.check-consulting.net.tls
