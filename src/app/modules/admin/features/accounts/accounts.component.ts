@@ -1,9 +1,5 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { AccountService } from 'app/core/service/account.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -11,7 +7,12 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AccountService } from 'app/core/service/account.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-accounts',
@@ -25,10 +26,11 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
     ],
     templateUrl: './accounts.component.html',
 })
-export class AccountsComponent implements OnInit {
+export class AccountsComponent implements OnInit, OnDestroy {
     private accountService = inject(AccountService);
     private snackBar: MatSnackBar = inject(MatSnackBar);
     private formBuilder = inject(FormBuilder);
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     form: FormGroup;
 
     managementModes: { key: string; value: string; tooltip?: string }[] = [
@@ -59,39 +61,43 @@ export class AccountsComponent implements OnInit {
             perecoMode: ['', Validators.required],
             perecoRiskLevel: ['', []],
         });
-        this.accountService.getUserAccounts().subscribe((res) => {
-            const response: {
-                peeMode: string;
-                peeRiskLevel: string;
-                perecoMode: string;
-                perecoRiskLevel: string;
-            } = {
-                peeMode: null,
-                peeRiskLevel: null,
-                perecoMode: null,
-                perecoRiskLevel: null,
-            };
-            res.data.forEach((account) => {
-                switch (account.type) {
-                    case 'PEE': {
-                        response.peeMode = account.managementMode;
-                        response.peeRiskLevel = account.riskLevel;
-                        break;
+
+        this.accountService.getUserAccounts().subscribe();
+        this.accountService.accounts$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((accounts) => {
+                const response: {
+                    peeMode: string;
+                    peeRiskLevel: string;
+                    perecoMode: string;
+                    perecoRiskLevel: string;
+                } = {
+                    peeMode: null,
+                    peeRiskLevel: null,
+                    perecoMode: null,
+                    perecoRiskLevel: null,
+                };
+                accounts.forEach((account) => {
+                    switch (account.type) {
+                        case 'PEE': {
+                            response.peeMode = account.managementMode;
+                            response.peeRiskLevel = account.riskLevel;
+                            break;
+                        }
+                        case 'PERECO': {
+                            response.perecoMode = account.managementMode;
+                            response.perecoRiskLevel = account.riskLevel;
+                            break;
+                        }
                     }
-                    case 'PERECO': {
-                        response.perecoMode = account.managementMode;
-                        response.perecoRiskLevel = account.riskLevel;
-                        break;
-                    }
-                }
+                });
+                this.form.setValue({
+                    peeMode: response.peeMode,
+                    perecoMode: response.perecoMode,
+                    peeRiskLevel: response.peeRiskLevel,
+                    perecoRiskLevel: response.perecoRiskLevel,
+                });
             });
-            this.form.setValue({
-                peeMode: response.peeMode,
-                perecoMode: response.perecoMode,
-                peeRiskLevel: response.peeRiskLevel,
-                perecoRiskLevel: response.perecoRiskLevel,
-            });
-        });
     }
 
     handleManagementModeChange($event: MatRadioChange, managementMode: string) {
@@ -147,5 +153,11 @@ export class AccountsComponent implements OnInit {
                 duration: 3 * 1000,
             });
         }
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }
