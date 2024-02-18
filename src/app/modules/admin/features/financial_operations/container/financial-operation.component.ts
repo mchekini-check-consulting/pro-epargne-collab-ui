@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +10,10 @@ import { Account } from 'app/core/model/account';
 import { AccountService } from 'app/core/service/account.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TransactionDialogComponent } from '../component/tranaction-dialog/transaction-dialog.component';
+import { RequestWithdrawalDialogComponent } from "../component/request-withdrawal-dialog/request-withdrawal-dialog";
+
+
+
 
 @Component({
     selector: 'app-financial-operation',
@@ -33,6 +38,12 @@ export class FinancialOperationComponent implements OnInit, OnDestroy {
         this.dialog.open(TransactionDialogComponent, {
             width: '600px',
             height: '600px',
+        });
+    }
+    openRequestWithdrawalDialog() {
+        this.dialog.open(RequestWithdrawalDialogComponent, {
+            width: '700px',
+            height: '600px'
         });
     }
 

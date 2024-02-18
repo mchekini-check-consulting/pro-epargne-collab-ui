@@ -2,11 +2,9 @@
 
 
     <div class="flex lg:flex-col justify-center w-ful lg:w-1/5 pt-2 py-5 px-5 border-s-4">
-        <button class="mb-15" mat-raised-button color="accent"
-            (click)="openTransactionDialog()"><mat-icon>library_add</mat-icon>
+        <button class="mb-15" mat-raised-button color="accent" (click)="openTransactionDialog()"><mat-icon>library_add</mat-icon>
             Versement</button>
-        <button class="mb-15" mat-raised-button color="accent"><mat-icon>account_balance_wallet</mat-icon>
-            Retrait</button>
+        <button class="mb-15" mat-raised-button color="accent" (click)="openRequestWithdrawalDialog()"><mat-icon>account_balance_wallet</mat-icon>Retrait</button>
         <button class="mb-15" mat-raised-button color="accent"><mat-icon>incomplete_circle</mat-icon> Répartition
             des
             assets</button>
