@@ -1,52 +1,63 @@
-import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {MatButtonModule} from "@angular/material/button";
-import {MatDialog} from "@angular/material/dialog";
-import {MatCardModule} from "@angular/material/card";
-import {MatIconModule} from "@angular/material/icon";
-import {CollaboratorAccountService} from 'app/core/service/collaborator-account.service';
-import {CollaboratorAccount} from 'app/core/model/collaborator_account.model';
-import {Router} from "@angular/router";
-import {TransactionDialogComponent} from "../component/tranaction-dialog/transaction-dialog.component";
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { Account } from 'app/core/model/account';
+import { AccountService } from 'app/core/service/account.service';
+import { Subject, takeUntil } from 'rxjs';
+import { TransactionDialogComponent } from '../component/tranaction-dialog/transaction-dialog.component';
 
 @Component({
     selector: 'app-financial-operation',
     standalone: true,
     imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
     templateUrl: './financial-operation.component.html',
-    styleUrl: './financial-operation.component.css'
+    styleUrl: './financial-operation.component.css',
 })
-export class FinancialOperationComponent implements OnInit {
+export class FinancialOperationComponent implements OnInit, OnDestroy {
+    accounts: Account[] = [];
+    totalAmount: number = 0;
 
-    accounts: CollaboratorAccount[] = []
-    totalAmount: number = 0
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    constructor(public dialog: MatDialog, private router: Router, private accountService: CollaboratorAccountService) {
-    }
-
+    constructor(
+        public dialog: MatDialog,
+        private router: Router,
+        private accountService: AccountService
+    ) {}
 
     openTransactionDialog() {
         this.dialog.open(TransactionDialogComponent, {
             width: '600px',
-            height: '600px'
+            height: '600px',
         });
     }
-
 
     navigateToHistory(): void {
         this.router.navigate(['/features/history']);
     }
 
     ngOnInit() {
-
-        this.accountService.getCollaboratorAccounts().subscribe(response => {
-
-            if (response.hasOwnProperty("data")) {
-
-                this.accounts = response['data']
-                this.accounts.forEach(account => this.totalAmount += account.amount)
-            }
-        })
+        this.accountService.getUserAccounts().subscribe();
+        this.accountService.accounts$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((accounts) => {
+                this.accounts = accounts;
+                this.totalAmount = this.accounts.reduce(
+                    (accumulator, currentValue) => {
+                        return accumulator + currentValue.amount;
+                    },
+                    0
+                );
+            });
     }
 
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
 }
