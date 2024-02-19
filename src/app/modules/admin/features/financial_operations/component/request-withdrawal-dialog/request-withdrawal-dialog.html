@@ -1,0 +1,69 @@
+<div class="text-center text-2xl mb-6">
+    <p><b>Effectuer un retrait</b></p>
+</div>
+<div>
+    <p class="content-center"> Quel compte souhaitez-vous débloquer ?</p>
+    <form [formGroup]="requestForm">
+        <mat-checkbox class="mr-4" formControlName="PEE">PEE</mat-checkbox>
+        <mat-checkbox formControlName="PERECO">PERECO</mat-checkbox>
+        <br/>
+        <div *ngIf="requestForm.controls['PEE'].value">
+            <p class="text-gray-800 font-bold"> PEE</p>
+            <br/>
+            <mat-form-field  class="w-full block">
+                <mat-label> Raison de déblocage :</mat-label>
+                <mat-select multiple formControlName="reasonUnblockingPee" required>
+                    <mat-option *ngFor="let raison of raisonPee" [value]="raison">
+                        {{ raison }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div  class="flex justify-end">
+                <div class="container">
+                    <input type="file" style="display: none" #fileInput accept="image/*,.pdf" (change)="onChangeFileInput()" />
+                    <button mat-raised-button color="primary" class="file-select-button" (click)="onClickFileInputButton()">
+                        <mat-icon>attach_file</mat-icon>
+                        Fichier à joindre
+                    </button>
+
+                    <p class="file-name" *ngIf="!file; else fileName"></p>
+                    <ng-template #fileName>
+                        <p class="file-name">{{ file?.name }}</p>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="requestForm.controls['PERECO'].value">
+            <p class="text-gray-800 font-bold"> PERECO</p>
+            <br/>
+            <mat-form-field  class="w-full block">
+                <mat-label>Raison de déblocage :</mat-label>
+                <mat-select multiple formControlName="reasonUnblockingPereco" required>
+                    <mat-option *ngFor="let raison of raisonPereco" [value]="raison">
+                        {{ raison }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div  class="flex justify-end">
+                <div class="container">
+                <input type="file" style="display: none" #fileInputreco accept="image/*,.pdf" (change)="onChangeFileInputreco()" />
+                <button mat-raised-button color="primary" class="file-select-button" (click)="onClickFileInputButtonreco()">
+                    <mat-icon>attach_file</mat-icon>
+                    Fichier à joindre                </button>
+
+                <p class="file-name" *ngIf="!filereco; else fileNamereco"></p>
+                <ng-template #fileNamereco>
+                    <p class="file-name">{{ filereco?.name }}</p>
+                </ng-template>
+                </div>
+            </div>
+        </div>
+            <br>
+        <div class="flex justify-end gap-3"  *ngIf="requestForm.controls['PEE'].value || requestForm.controls['PERECO'].value">
+            <button mat-raised-button class="w-32 bg-green-700 text-white" (click)="validateForm()">Valider</button>
+            <button mat-raised-button class="w-32 bg-red-600 text-white" (click)="close()">Annuler</button>
+        </div>
+
+    </form>
+</div>
